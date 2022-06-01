@@ -1,0 +1,110 @@
+Q1)
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+struct telepay
+{
+    char type[20];
+    int tid;
+    float amt;
+    struct telepay *next;
+};
+typedef struct telepay *NODE;
+
+NODE getnode();
+NODE insert_end(NODE head);
+void display(NODE head);
+void search(NODE head);
+
+int main()
+{
+    NODE head=NULL;
+    int n;
+    scanf("%d",&n);
+    for(int i=0;i<n;i++)
+        {
+            head=insert_end(head);
+        }
+    display(head);
+    search(head);
+    return 0;
+}
+
+NODE getnode()
+{
+    NODE newn=(NODE)malloc(sizeof(struct telepay));
+    if(newn==NULL)
+    {
+        printf("memory not allocoted\n");
+        exit(0);
+    }
+    scanf("%s %f %d",newn->type,&newn->amt,&newn->tid);
+    newn->next=NULL;
+    return newn;
+}
+
+NODE insert_end(NODE head)
+    {
+    NODE cur=head;
+    NODE newn=getnode();
+    if(head==NULL)
+    {
+        head=newn;
+    }
+    else
+    {
+        while(cur->next!=NULL)
+        {
+            cur=cur->next;
+        }
+        cur->next=newn;
+    }
+    return head;
+}
+
+void display(NODE head)
+{
+    NODE cur=head;
+    if(head==NULL)
+    {
+        printf("list is empty\n");
+    }
+    else
+    {
+        printf("All transactions details:\n");
+        while(cur!=NULL)
+        {
+            printf("%s %0.2f %d\n",cur->type,cur->amt,cur->tid);
+            cur=cur->next;
+        }
+    }
+    printf("\n");
+}
+
+void search(NODE head)
+{
+    int flag=0;
+    NODE cur=head;
+    if(head==NULL)
+    {
+        printf("list is empty\n");
+    }
+    else
+    {
+        while(cur!=NULL)
+        {
+        if(strcmp(cur->type,"recharge")==0)
+        {
+            flag=1;
+            printf("%s %0.2f %d\n",cur->type,cur->amt,cur->tid);
+        }
+        cur=cur->next;
+        }
+        if(flag==0)
+        {
+            printf("No transactions found related to recharge.\n");
+        }
+    }
+}
